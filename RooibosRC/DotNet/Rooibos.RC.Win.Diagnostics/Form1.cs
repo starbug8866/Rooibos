@@ -71,14 +71,23 @@ namespace Rooibos.RC.Win.Diagnostics
 
         private void comboBoxPorts_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            if (!string.IsNullOrEmpty(comboBoxPorts.SelectedItem.ToString()))
+            {
+                buttonOpen.Enabled = true;
+                checkBoxMode.Enabled = true;
+            }
+            else
+            {
+                buttonOpen.Enabled = false;
+                checkBoxMode.Enabled = false;
+            }
         }
 
         private void btnStartStop_Click(object sender, EventArgs e)
         {
-            if (btnStartStop.Text.Equals("START", StringComparison.OrdinalIgnoreCase))
+            if (btnStartStop.Text.Equals("START TEST", StringComparison.OrdinalIgnoreCase))
             {
-                btnStartStop.Text = "Stop";
+                btnStartStop.Text = "Stop Test";
 
                 _TestThread = new Thread(new ThreadStart(BeginTest));
                 _TestThread.Start();
@@ -88,7 +97,7 @@ namespace Rooibos.RC.Win.Diagnostics
                 _TestThread.Abort();
                 _Bridge.Close();
 
-                btnStartStop.Text = "Start";
+                btnStartStop.Text = "Start Test";
             }
         }
 
@@ -137,6 +146,11 @@ namespace Rooibos.RC.Win.Diagnostics
 
             dataGridViewIO.Invoke((MethodInvoker)delegate {
                 dataGridViewIO.Rows.Add(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), source, command, value);
+                
+                if (checkBoxAutoScroll.Enabled)
+                {
+                    dataGridViewIO.FirstDisplayedScrollingRowIndex = dataGridViewIO.FirstDisplayedScrollingRowIndex + 1;
+                }
             });
         }
 
@@ -149,8 +163,13 @@ namespace Rooibos.RC.Win.Diagnostics
                 _Bridge.Open();
 
                 buttonOpen.Text = "Close";
+                
 
                 m_controllerThread.Start();
+
+                comboBoxPorts.Enabled = false;
+
+                btnStartStop.Enabled = true;
             }
             else
             {
@@ -158,6 +177,13 @@ namespace Rooibos.RC.Win.Diagnostics
                 buttonOpen.Text = "Open";
 
                 m_controllerThread.Abort();
+
+                comboBoxPorts.Enabled = true;
+
+                _Test.Stop = true;
+                _TestThread.Abort();
+                btnStartStop.Enabled = false;
+                btnStartStop.Text = "Start Test";
             }
         }
     }

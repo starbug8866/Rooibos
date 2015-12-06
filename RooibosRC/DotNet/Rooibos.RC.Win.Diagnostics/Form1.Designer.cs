@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.buttonOpen = new System.Windows.Forms.Button();
             this.comboBoxPorts = new System.Windows.Forms.ComboBox();
             this.checkBoxMode = new System.Windows.Forms.CheckBox();
             this.btnStartStop = new System.Windows.Forms.Button();
@@ -37,7 +38,7 @@
             this.Source = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Command = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.buttonOpen = new System.Windows.Forms.Button();
+            this.checkBoxAutoScroll = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -54,6 +55,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.checkBoxAutoScroll);
             this.splitContainer1.Panel1.Controls.Add(this.buttonOpen);
             this.splitContainer1.Panel1.Controls.Add(this.comboBoxPorts);
             this.splitContainer1.Panel1.Controls.Add(this.checkBoxMode);
@@ -67,10 +69,22 @@
             this.splitContainer1.SplitterDistance = 39;
             this.splitContainer1.TabIndex = 0;
             // 
+            // buttonOpen
+            // 
+            this.buttonOpen.Enabled = false;
+            this.buttonOpen.Location = new System.Drawing.Point(215, 8);
+            this.buttonOpen.Name = "buttonOpen";
+            this.buttonOpen.Size = new System.Drawing.Size(75, 23);
+            this.buttonOpen.TabIndex = 3;
+            this.buttonOpen.Text = "Open";
+            this.buttonOpen.UseVisualStyleBackColor = true;
+            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
+            // 
             // comboBoxPorts
             // 
+            this.comboBoxPorts.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxPorts.FormattingEnabled = true;
-            this.comboBoxPorts.Location = new System.Drawing.Point(160, 12);
+            this.comboBoxPorts.Location = new System.Drawing.Point(12, 10);
             this.comboBoxPorts.Name = "comboBoxPorts";
             this.comboBoxPorts.Size = new System.Drawing.Size(121, 21);
             this.comboBoxPorts.TabIndex = 2;
@@ -79,7 +93,8 @@
             // checkBoxMode
             // 
             this.checkBoxMode.AutoSize = true;
-            this.checkBoxMode.Location = new System.Drawing.Point(93, 14);
+            this.checkBoxMode.Enabled = false;
+            this.checkBoxMode.Location = new System.Drawing.Point(139, 12);
             this.checkBoxMode.Name = "checkBoxMode";
             this.checkBoxMode.Size = new System.Drawing.Size(70, 17);
             this.checkBoxMode.TabIndex = 1;
@@ -88,11 +103,12 @@
             // 
             // btnStartStop
             // 
-            this.btnStartStop.Location = new System.Drawing.Point(12, 10);
+            this.btnStartStop.Enabled = false;
+            this.btnStartStop.Location = new System.Drawing.Point(296, 8);
             this.btnStartStop.Name = "btnStartStop";
             this.btnStartStop.Size = new System.Drawing.Size(75, 23);
             this.btnStartStop.TabIndex = 0;
-            this.btnStartStop.Text = "Start";
+            this.btnStartStop.Text = "Start Test";
             this.btnStartStop.UseVisualStyleBackColor = true;
             this.btnStartStop.Click += new System.EventHandler(this.btnStartStop_Click);
             // 
@@ -130,19 +146,20 @@
             // 
             // Value
             // 
+            this.Value.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Value.HeaderText = "Value";
             this.Value.Name = "Value";
             this.Value.ReadOnly = true;
             // 
-            // buttonOpen
+            // checkBoxAutoScroll
             // 
-            this.buttonOpen.Location = new System.Drawing.Point(287, 10);
-            this.buttonOpen.Name = "buttonOpen";
-            this.buttonOpen.Size = new System.Drawing.Size(75, 23);
-            this.buttonOpen.TabIndex = 3;
-            this.buttonOpen.Text = "Open";
-            this.buttonOpen.UseVisualStyleBackColor = true;
-            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
+            this.checkBoxAutoScroll.AutoSize = true;
+            this.checkBoxAutoScroll.Location = new System.Drawing.Point(377, 12);
+            this.checkBoxAutoScroll.Name = "checkBoxAutoScroll";
+            this.checkBoxAutoScroll.Size = new System.Drawing.Size(77, 17);
+            this.checkBoxAutoScroll.TabIndex = 4;
+            this.checkBoxAutoScroll.Text = "Auto Scroll";
+            this.checkBoxAutoScroll.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -169,12 +186,13 @@
         private System.Windows.Forms.DataGridView dataGridViewIO;
         private System.Windows.Forms.Button btnStartStop;
         private System.Windows.Forms.CheckBox checkBoxMode;
+        private System.Windows.Forms.ComboBox comboBoxPorts;
+        private System.Windows.Forms.Button buttonOpen;
         private System.Windows.Forms.DataGridViewTextBoxColumn DateStamp;
         private System.Windows.Forms.DataGridViewTextBoxColumn Source;
         private System.Windows.Forms.DataGridViewTextBoxColumn Command;
         private System.Windows.Forms.DataGridViewTextBoxColumn Value;
-        private System.Windows.Forms.ComboBox comboBoxPorts;
-        private System.Windows.Forms.Button buttonOpen;
+        private System.Windows.Forms.CheckBox checkBoxAutoScroll;
     }
 }
 
