@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.checkBoxAutoScroll = new System.Windows.Forms.CheckBox();
             this.buttonOpen = new System.Windows.Forms.Button();
             this.comboBoxPorts = new System.Windows.Forms.ComboBox();
             this.checkBoxMode = new System.Windows.Forms.CheckBox();
@@ -38,7 +39,6 @@
             this.Source = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Command = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.checkBoxAutoScroll = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -68,6 +68,16 @@
             this.splitContainer1.Size = new System.Drawing.Size(702, 331);
             this.splitContainer1.SplitterDistance = 39;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // checkBoxAutoScroll
+            // 
+            this.checkBoxAutoScroll.AutoSize = true;
+            this.checkBoxAutoScroll.Location = new System.Drawing.Point(377, 12);
+            this.checkBoxAutoScroll.Name = "checkBoxAutoScroll";
+            this.checkBoxAutoScroll.Size = new System.Drawing.Size(77, 17);
+            this.checkBoxAutoScroll.TabIndex = 4;
+            this.checkBoxAutoScroll.Text = "Auto Scroll";
+            this.checkBoxAutoScroll.UseVisualStyleBackColor = true;
             // 
             // buttonOpen
             // 
@@ -114,6 +124,8 @@
             // 
             // dataGridViewIO
             // 
+            this.dataGridViewIO.AllowUserToAddRows = false;
+            this.dataGridViewIO.AllowUserToDeleteRows = false;
             this.dataGridViewIO.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewIO.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.DateStamp,
@@ -121,6 +133,7 @@
             this.Command,
             this.Value});
             this.dataGridViewIO.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewIO.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridViewIO.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewIO.Name = "dataGridViewIO";
             this.dataGridViewIO.Size = new System.Drawing.Size(702, 288);
@@ -150,16 +163,6 @@
             this.Value.HeaderText = "Value";
             this.Value.Name = "Value";
             this.Value.ReadOnly = true;
-            // 
-            // checkBoxAutoScroll
-            // 
-            this.checkBoxAutoScroll.AutoSize = true;
-            this.checkBoxAutoScroll.Location = new System.Drawing.Point(377, 12);
-            this.checkBoxAutoScroll.Name = "checkBoxAutoScroll";
-            this.checkBoxAutoScroll.Size = new System.Drawing.Size(77, 17);
-            this.checkBoxAutoScroll.TabIndex = 4;
-            this.checkBoxAutoScroll.Text = "Auto Scroll";
-            this.checkBoxAutoScroll.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 

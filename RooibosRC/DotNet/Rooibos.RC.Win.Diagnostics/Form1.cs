@@ -94,6 +94,7 @@ namespace Rooibos.RC.Win.Diagnostics
             }
             else
             {
+                _Test.Stop = true;
                 _TestThread.Abort();
                 _Bridge.Close();
 
@@ -146,10 +147,13 @@ namespace Rooibos.RC.Win.Diagnostics
 
             dataGridViewIO.Invoke((MethodInvoker)delegate {
                 dataGridViewIO.Rows.Add(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), source, command, value);
-                
-                if (checkBoxAutoScroll.Enabled)
+
+                if (checkBoxAutoScroll.Checked)
                 {
-                    dataGridViewIO.FirstDisplayedScrollingRowIndex = dataGridViewIO.FirstDisplayedScrollingRowIndex + 1;
+                    if (dataGridViewIO.Rows.Count > 0)
+                    {
+                        dataGridViewIO.FirstDisplayedScrollingRowIndex = dataGridViewIO.FirstDisplayedScrollingRowIndex + 1;
+                    }
                 }
             });
         }
