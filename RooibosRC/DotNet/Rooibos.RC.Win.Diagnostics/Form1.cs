@@ -52,9 +52,16 @@ namespace Rooibos.RC.Win.Diagnostics
 
         private void m_controller_OnInputChangedEvent(object sender, int angleAilerons, int angleElevators, int angleRudder, int power)
         {
-            _Bridge.SendCommand("FWD_" + IO.Commands.Plane.AILO.Command, angleAilerons.ToString());
-            _Bridge.SendCommand("FWD_" + IO.Commands.Plane.ELEV.Command, angleElevators.ToString());
-            _Bridge.SendCommand("FWD_" + IO.Commands.Plane.RUDD.Command, angleRudder.ToString());
+            string prefix = "";
+
+            if (checkBoxMode.Checked)
+            {
+                prefix = "FWD_";
+            }
+            
+            _Bridge.SendCommand(prefix + IO.Commands.Plane.AILO.Command, angleAilerons.ToString());
+            _Bridge.SendCommand(prefix + IO.Commands.Plane.ELEV.Command, angleElevators.ToString());
+            _Bridge.SendCommand(prefix + IO.Commands.Plane.RUDD.Command, angleRudder.ToString());
         }
 
         private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
@@ -104,26 +111,33 @@ namespace Rooibos.RC.Win.Diagnostics
 
         private void BeginTest()
         {
+            string prefix = "";
+
+            if (checkBoxMode.Checked)
+            {
+                prefix = "FWD_";
+            }
+
             List<string[]> commands = new List<string[]>();
-            commands.Add(new string[] { "FWD_" + IO.Commands.RSET.Command, AileronDegreesMax.ToString() });
+            commands.Add(new string[] { prefix + IO.Commands.RSET.Command, AileronDegreesMax.ToString() });
 
-            commands.Add(new string[] { "FWD_" + IO.Commands.Plane.AILO.Command, AileronDegreesMax.ToString() });
-            commands.Add(new string[] { "FWD_" + IO.Commands.Plane.AILO.Command, AileronDegreesMin.ToString() });
-            commands.Add(new string[] { "FWD_" + IO.Commands.Plane.AILO.Command, AileronsDegreeLevel.ToString() });
+            commands.Add(new string[] { prefix + IO.Commands.Plane.AILO.Command, AileronDegreesMax.ToString() });
+            commands.Add(new string[] { prefix + IO.Commands.Plane.AILO.Command, AileronDegreesMin.ToString() });
+            commands.Add(new string[] { prefix + IO.Commands.Plane.AILO.Command, AileronsDegreeLevel.ToString() });
 
-            commands.Add(new string[] { "FWD_" + IO.Commands.ECHO.Command, "" });
+            commands.Add(new string[] { prefix + IO.Commands.ECHO.Command, "" });
 
-            commands.Add(new string[] { "FWD_" + IO.Commands.Plane.ELEV.Command, ElevatorsDegreesMax.ToString() });
-            commands.Add(new string[] { "FWD_" + IO.Commands.Plane.ELEV.Command, ElevatorsDegreesMin.ToString() });
-            commands.Add(new string[] { "FWD_" + IO.Commands.Plane.ELEV.Command, ElevatorsDegreesLevel.ToString() });
+            commands.Add(new string[] { prefix + IO.Commands.Plane.ELEV.Command, ElevatorsDegreesMax.ToString() });
+            commands.Add(new string[] { prefix + IO.Commands.Plane.ELEV.Command, ElevatorsDegreesMin.ToString() });
+            commands.Add(new string[] { prefix + IO.Commands.Plane.ELEV.Command, ElevatorsDegreesLevel.ToString() });
 
-            commands.Add(new string[] { "FWD_" + IO.Commands.ECHO.Command, "" });
+            commands.Add(new string[] { prefix + IO.Commands.ECHO.Command, "" });
 
-            commands.Add(new string[] { "FWD_" + IO.Commands.Plane.RUDD.Command, RudderDegreesMax.ToString() });
-            commands.Add(new string[] { "FWD_" + IO.Commands.Plane.RUDD.Command, RudderDegreesMin.ToString() });
-            commands.Add(new string[] { "FWD_" + IO.Commands.Plane.RUDD.Command, RudderDegreesLevel.ToString() });
+            commands.Add(new string[] { prefix + IO.Commands.Plane.RUDD.Command, RudderDegreesMax.ToString() });
+            commands.Add(new string[] { prefix + IO.Commands.Plane.RUDD.Command, RudderDegreesMin.ToString() });
+            commands.Add(new string[] { prefix + IO.Commands.Plane.RUDD.Command, RudderDegreesLevel.ToString() });
 
-            commands.Add(new string[] { "FWD_" + IO.Commands.ECHO.Command, "" });
+            commands.Add(new string[] { prefix + IO.Commands.ECHO.Command, "" });
 
             Test t = new IO.Test();
             t.BeginTest(500, _Bridge, commands);
