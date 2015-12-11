@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.checkBoxAutoScroll = new System.Windows.Forms.CheckBox();
             this.buttonOpen = new System.Windows.Forms.Button();
@@ -65,8 +66,10 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.textBoxProtocolTerminator = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.toolStripStatusLabelTimeOpen = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -91,6 +94,16 @@
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabelTimeOpen});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 408);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(748, 22);
+            this.statusStrip1.TabIndex = 0;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -111,9 +124,9 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer1.Size = new System.Drawing.Size(748, 430);
+            this.splitContainer1.Size = new System.Drawing.Size(748, 408);
             this.splitContainer1.SplitterDistance = 39;
-            this.splitContainer1.TabIndex = 0;
+            this.splitContainer1.TabIndex = 1;
             // 
             // checkBoxAutoScroll
             // 
@@ -134,7 +147,7 @@
             this.buttonOpen.TabIndex = 3;
             this.buttonOpen.Text = "Open";
             this.buttonOpen.UseVisualStyleBackColor = true;
-            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
+            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click_1);
             // 
             // comboBoxPorts
             // 
@@ -144,7 +157,6 @@
             this.comboBoxPorts.Name = "comboBoxPorts";
             this.comboBoxPorts.Size = new System.Drawing.Size(121, 21);
             this.comboBoxPorts.TabIndex = 2;
-            this.comboBoxPorts.SelectedIndexChanged += new System.EventHandler(this.comboBoxPorts_SelectedIndexChanged);
             // 
             // checkBoxMode
             // 
@@ -166,7 +178,6 @@
             this.btnStartStop.TabIndex = 0;
             this.btnStartStop.Text = "Start Test";
             this.btnStartStop.UseVisualStyleBackColor = true;
-            this.btnStartStop.Click += new System.EventHandler(this.btnStartStop_Click);
             // 
             // tabControl1
             // 
@@ -176,7 +187,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(748, 387);
+            this.tabControl1.Size = new System.Drawing.Size(748, 365);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -185,7 +196,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(740, 361);
+            this.tabPage1.Size = new System.Drawing.Size(740, 339);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Monitor";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -204,7 +215,7 @@
             this.dataGridViewIO.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridViewIO.Location = new System.Drawing.Point(3, 3);
             this.dataGridViewIO.Name = "dataGridViewIO";
-            this.dataGridViewIO.Size = new System.Drawing.Size(734, 355);
+            this.dataGridViewIO.Size = new System.Drawing.Size(734, 333);
             this.dataGridViewIO.TabIndex = 0;
             // 
             // DateStamp
@@ -238,7 +249,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(740, 361);
+            this.tabPage2.Size = new System.Drawing.Size(740, 339);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Configuration";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -252,7 +263,7 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(734, 355);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(734, 333);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // groupBoxAilerons
@@ -538,12 +549,20 @@
             // 
             this.groupBox2.Controls.Add(this.textBoxProtocolTerminator);
             this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Location = new System.Drawing.Point(3, 128);
+            this.groupBox2.Location = new System.Drawing.Point(543, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(200, 100);
+            this.groupBox2.Size = new System.Drawing.Size(174, 66);
             this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Protocol";
+            // 
+            // textBoxProtocolTerminator
+            // 
+            this.textBoxProtocolTerminator.Location = new System.Drawing.Point(89, 13);
+            this.textBoxProtocolTerminator.Name = "textBoxProtocolTerminator";
+            this.textBoxProtocolTerminator.Size = new System.Drawing.Size(71, 20);
+            this.textBoxProtocolTerminator.TabIndex = 1;
+            this.textBoxProtocolTerminator.Text = "?";
             // 
             // label10
             // 
@@ -554,13 +573,10 @@
             this.label10.TabIndex = 0;
             this.label10.Text = "Terminator";
             // 
-            // textBoxProtocolTerminator
+            // toolStripStatusLabelTimeOpen
             // 
-            this.textBoxProtocolTerminator.Location = new System.Drawing.Point(89, 13);
-            this.textBoxProtocolTerminator.Name = "textBoxProtocolTerminator";
-            this.textBoxProtocolTerminator.Size = new System.Drawing.Size(71, 20);
-            this.textBoxProtocolTerminator.TabIndex = 1;
-            this.textBoxProtocolTerminator.Text = "?";
+            this.toolStripStatusLabelTimeOpen.Name = "toolStripStatusLabelTimeOpen";
+            this.toolStripStatusLabelTimeOpen.Size = new System.Drawing.Size(0, 17);
             // 
             // Form1
             // 
@@ -568,9 +584,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(748, 430);
             this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.statusStrip1);
             this.Name = "Form1";
             this.Text = "RC Diagnostics";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -599,33 +618,36 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelTimeOpen;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.DataGridView dataGridViewIO;
-        private System.Windows.Forms.Button btnStartStop;
-        private System.Windows.Forms.CheckBox checkBoxMode;
-        private System.Windows.Forms.ComboBox comboBoxPorts;
+        private System.Windows.Forms.CheckBox checkBoxAutoScroll;
         private System.Windows.Forms.Button buttonOpen;
+        private System.Windows.Forms.ComboBox comboBoxPorts;
+        private System.Windows.Forms.CheckBox checkBoxMode;
+        private System.Windows.Forms.Button btnStartStop;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.DataGridView dataGridViewIO;
         private System.Windows.Forms.DataGridViewTextBoxColumn DateStamp;
         private System.Windows.Forms.DataGridViewTextBoxColumn Source;
         private System.Windows.Forms.DataGridViewTextBoxColumn Command;
         private System.Windows.Forms.DataGridViewTextBoxColumn Value;
-        private System.Windows.Forms.CheckBox checkBoxAutoScroll;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.GroupBox groupBoxAilerons;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown numericUpDownAileronsLevelDegrees;
         private System.Windows.Forms.NumericUpDown numericUpDownAileronsMinDegrees;
         private System.Windows.Forms.NumericUpDown numericUpDownAileronsMaxDegrees;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBoxElevators;
         private System.Windows.Forms.NumericUpDown numericUpDownElevatorsLevelDegrees;
         private System.Windows.Forms.NumericUpDown numericUpDownElevatorsMinDegrees;

@@ -25,6 +25,9 @@ namespace Rooibos.RC.Win.Diagnostics
 
         private XBox360Plane m_controller;
         private Thread m_controllerThread;
+        private Thread m_timerThread;
+
+        private DateTime m_timeOpened;
 
         public Form1()
         {
@@ -37,6 +40,7 @@ namespace Rooibos.RC.Win.Diagnostics
             m_controller.OnInputChangedEvent += m_controller_OnInputChangedEvent;
 
             m_controllerThread = new Thread(m_controller.ControllerStart);
+            m_timerThread = new Thread(StartTimer);
         }
 
         private void m_controller_OnInputChangedEvent(object sender, int angleAilerons, int angleElevators, int angleRudder, int power)
@@ -161,6 +165,13 @@ namespace Rooibos.RC.Win.Diagnostics
             });
         }
 
+        private void StartTimer()
+        {
+            toolStripStatusLabelTimeOpen.Text = (DateTime.Now - m_timeOpened).Seconds.ToString();
+
+            Thread.Sleep(1000);
+        }
+
         private void buttonOpen_Click(object sender, EventArgs e)
         {
             if (buttonOpen.Text.Equals("Open"))
@@ -180,6 +191,9 @@ namespace Rooibos.RC.Win.Diagnostics
                 btnStartStop.Enabled = true;
 
                 textBoxProtocolTerminator.Enabled = false;
+
+                m_timeOpened = DateTime.Now;
+                m_timerThread.Start();
             }
             else
             {
@@ -196,7 +210,13 @@ namespace Rooibos.RC.Win.Diagnostics
                 btnStartStop.Text = "Start Test";
 
                 textBoxProtocolTerminator.Enabled = true;
+                m_timerThread.Abort();
             }
+        }
+
+        private void buttonOpen_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

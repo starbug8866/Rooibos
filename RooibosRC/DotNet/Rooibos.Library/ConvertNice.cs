@@ -10,7 +10,19 @@ namespace Rooibos.Library
     {
         public static bool ToBoolean(object value)
         {
-            return true;
+            if (value == null)
+            {
+                return false;
+            }
+
+            string str = value.ToString().Trim();
+
+            if (str.Equals("true", StringComparison.OrdinalIgnoreCase) || str.Equals("y", StringComparison.OrdinalIgnoreCase) || str.Equals("1") || str.Equals("yes", StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public static int ToInt32(object value)
