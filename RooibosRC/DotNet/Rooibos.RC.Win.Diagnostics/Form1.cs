@@ -1,4 +1,5 @@
-﻿using Rooibos.RC.IO;
+﻿using Rooibos.Library;
+using Rooibos.RC.IO;
 using Rooibos.RC.IO.Commands;
 using Rooibos.RC.IO.GameControllers;
 using System;
@@ -17,18 +18,6 @@ namespace Rooibos.RC.Win.Diagnostics
 {
     public partial class Form1 : Form
     {
-        const int AileronsDegreeLevel = 90;
-        const int AileronDegreesMin = 45;
-        const int AileronDegreesMax = 135;
-
-        const int RudderDegreesLevel = 125;
-        const int RudderDegreesMin = 100;
-        const int RudderDegreesMax = 170;
-
-        const int ElevatorsDegreesLevel = 120;
-        const int ElevatorsDegreesMin = 70;
-        const int ElevatorsDegreesMax = 180;
-
         private RC.IO.RCBridge _Bridge;
         private Thread _TestThread;
         private Test _Test = new Test();
@@ -41,9 +30,9 @@ namespace Rooibos.RC.Win.Diagnostics
         {
             InitializeComponent();
 
-            m_controller = new XBox360Plane(AileronDegreesMax, AileronDegreesMin, AileronsDegreeLevel, 
-                ElevatorsDegreesMax, ElevatorsDegreesMin, ElevatorsDegreesLevel,
-                RudderDegreesMax, RudderDegreesMin, RudderDegreesLevel);
+            m_controller = new XBox360Plane(ConvertNice.ToInt32(numericUpDownAileronsMaxDegrees.Value), ConvertNice.ToInt32(numericUpDownAileronsMinDegrees.Value), ConvertNice.ToInt32(numericUpDownAileronsLevelDegrees.Value),
+                ConvertNice.ToInt32(numericUpDownElevatorsMaxDegrees.Value), ConvertNice.ToInt32(numericUpDownElevatorsMinDegrees.Value), ConvertNice.ToInt32(numericUpDownElevatorsLevelDegrees.Value),
+                ConvertNice.ToInt32(numericUpDownRudderMaxDegrees.Value), ConvertNice.ToInt32(numericUpDownRudderMinDegrees.Value), ConvertNice.ToInt32(numericUpDownRudderLevelDegrees.Value));
 
             m_controller.OnInputChangedEvent += m_controller_OnInputChangedEvent;
 
@@ -119,23 +108,23 @@ namespace Rooibos.RC.Win.Diagnostics
             }
 
             List<string[]> commands = new List<string[]>();
-            commands.Add(new string[] { prefix + IO.Commands.RSET.Command, AileronDegreesMax.ToString() });
+            commands.Add(new string[] { prefix + IO.Commands.RSET.Command, ConvertNice.ToInt32(numericUpDownAileronsMaxDegrees.Value).ToString() });
 
-            commands.Add(new string[] { prefix + IO.Commands.Plane.AILO.Command, AileronDegreesMax.ToString() });
-            commands.Add(new string[] { prefix + IO.Commands.Plane.AILO.Command, AileronDegreesMin.ToString() });
-            commands.Add(new string[] { prefix + IO.Commands.Plane.AILO.Command, AileronsDegreeLevel.ToString() });
-
-            commands.Add(new string[] { prefix + IO.Commands.ECHO.Command, "" });
-
-            commands.Add(new string[] { prefix + IO.Commands.Plane.ELEV.Command, ElevatorsDegreesMax.ToString() });
-            commands.Add(new string[] { prefix + IO.Commands.Plane.ELEV.Command, ElevatorsDegreesMin.ToString() });
-            commands.Add(new string[] { prefix + IO.Commands.Plane.ELEV.Command, ElevatorsDegreesLevel.ToString() });
+            commands.Add(new string[] { prefix + IO.Commands.Plane.AILO.Command, ConvertNice.ToInt32(numericUpDownAileronsMaxDegrees.Value).ToString() });
+            commands.Add(new string[] { prefix + IO.Commands.Plane.AILO.Command, ConvertNice.ToInt32(numericUpDownAileronsMinDegrees.Value).ToString() });
+            commands.Add(new string[] { prefix + IO.Commands.Plane.AILO.Command, ConvertNice.ToInt32(numericUpDownAileronsLevelDegrees.Value).ToString() });
 
             commands.Add(new string[] { prefix + IO.Commands.ECHO.Command, "" });
 
-            commands.Add(new string[] { prefix + IO.Commands.Plane.RUDD.Command, RudderDegreesMax.ToString() });
-            commands.Add(new string[] { prefix + IO.Commands.Plane.RUDD.Command, RudderDegreesMin.ToString() });
-            commands.Add(new string[] { prefix + IO.Commands.Plane.RUDD.Command, RudderDegreesLevel.ToString() });
+            commands.Add(new string[] { prefix + IO.Commands.Plane.ELEV.Command, ConvertNice.ToInt32(numericUpDownElevatorsMaxDegrees.Value).ToString() });
+            commands.Add(new string[] { prefix + IO.Commands.Plane.ELEV.Command, ConvertNice.ToInt32(numericUpDownElevatorsMinDegrees.Value).ToString() });
+            commands.Add(new string[] { prefix + IO.Commands.Plane.ELEV.Command, ConvertNice.ToInt32(numericUpDownElevatorsLevelDegrees.Value).ToString() });
+
+            commands.Add(new string[] { prefix + IO.Commands.ECHO.Command, "" });
+
+            commands.Add(new string[] { prefix + IO.Commands.Plane.RUDD.Command, ConvertNice.ToInt32(numericUpDownRudderMaxDegrees.Value).ToString() });
+            commands.Add(new string[] { prefix + IO.Commands.Plane.RUDD.Command, ConvertNice.ToInt32(numericUpDownRudderMinDegrees.Value).ToString() });
+            commands.Add(new string[] { prefix + IO.Commands.Plane.RUDD.Command, ConvertNice.ToInt32(numericUpDownRudderLevelDegrees.Value).ToString() });
 
             commands.Add(new string[] { prefix + IO.Commands.ECHO.Command, "" });
 
@@ -177,6 +166,7 @@ namespace Rooibos.RC.Win.Diagnostics
             if (buttonOpen.Text.Equals("Open"))
             {
                 _Bridge = new IO.RCBridge(comboBoxPorts.SelectedItem.ToString());
+                _Bridge.MessageTerminator = textBoxProtocolTerminator.Text.Trim()[0];
                 _Bridge.OnCommandReceivedEvent += _Bridge_OnCommandReceivedEvent;
                 _Bridge.Open();
 
@@ -188,6 +178,8 @@ namespace Rooibos.RC.Win.Diagnostics
                 comboBoxPorts.Enabled = false;
 
                 btnStartStop.Enabled = true;
+
+                textBoxProtocolTerminator.Enabled = false;
             }
             else
             {
@@ -202,6 +194,8 @@ namespace Rooibos.RC.Win.Diagnostics
                 _TestThread.Abort();
                 btnStartStop.Enabled = false;
                 btnStartStop.Text = "Start Test";
+
+                textBoxProtocolTerminator.Enabled = true;
             }
         }
     }

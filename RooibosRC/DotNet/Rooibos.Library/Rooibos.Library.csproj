@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConvertNice.cs" />
     <Compile Include="Degrees.cs" />
     <Compile Include="GameControllers\Utils.cs" />
     <Compile Include="GameControllers\XBox360.cs" />
