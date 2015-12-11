@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -80,25 +81,6 @@ namespace Rooibos.RC.Win.Diagnostics
             {
                 buttonOpen.Enabled = false;
                 checkBoxMode.Enabled = false;
-            }
-        }
-
-        private void btnStartStop_Click(object sender, EventArgs e)
-        {
-            if (btnStartStop.Text.Equals("START TEST", StringComparison.OrdinalIgnoreCase))
-            {
-                btnStartStop.Text = "Stop Test";
-
-                _TestThread = new Thread(new ThreadStart(BeginTest));
-                _TestThread.Start();
-            }
-            else
-            {
-                _Test.Stop = true;
-                _TestThread.Abort();
-                _Bridge.Close();
-
-                btnStartStop.Text = "Start Test";
             }
         }
 
@@ -216,8 +198,42 @@ namespace Rooibos.RC.Win.Diagnostics
 
         private void buttonOpen_Click_1(object sender, EventArgs e)
         {
+            if (btnStartStop.Text.Equals("START TEST", StringComparison.OrdinalIgnoreCase))
+            {
+                btnStartStop.Text = "Stop Test";
 
+                _TestThread = new Thread(new ThreadStart(BeginTest));
+                _TestThread.Start();
+
+                dataGridViewIO.Rows.Clear();
+                btnExport.Enabled = false;
+            }
+            else
+            {
+                _Test.Stop = true;
+                _TestThread.Abort();
+                _Bridge.Close();
+
+                btnStartStop.Text = "Start Test";
+                btnExport.Enabled = true;
+            }
         }
-        
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog d = new SaveFileDialog();
+
+            if (d.ShowDialog(this) != DialogResult.Cancel)
+            {
+                try
+                {
+                    FileHelper.SaveCsvFile(new FileInfo(d.FileName), dataGridViewIO);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Could not save file: " + ex.ToString());
+                }
+            }
+        }
     }
 }

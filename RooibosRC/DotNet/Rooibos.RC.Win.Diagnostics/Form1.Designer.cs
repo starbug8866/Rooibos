@@ -70,6 +70,7 @@
             this.textBoxProtocolTerminator = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.toolStripStatusLabelTimeOpen = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnExport = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -115,6 +116,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.btnExport);
             this.splitContainer1.Panel1.Controls.Add(this.checkBoxAutoScroll);
             this.splitContainer1.Panel1.Controls.Add(this.buttonOpen);
             this.splitContainer1.Panel1.Controls.Add(this.comboBoxPorts);
@@ -579,6 +581,16 @@
             this.toolStripStatusLabelTimeOpen.Name = "toolStripStatusLabelTimeOpen";
             this.toolStripStatusLabelTimeOpen.Size = new System.Drawing.Size(0, 17);
             // 
+            // btnExport
+            // 
+            this.btnExport.Location = new System.Drawing.Point(460, 8);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(93, 23);
+            this.btnExport.TabIndex = 5;
+            this.btnExport.Text = "CSV Export..";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -667,6 +679,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TextBox textBoxProtocolTerminator;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button btnExport;
     }
 }
 
