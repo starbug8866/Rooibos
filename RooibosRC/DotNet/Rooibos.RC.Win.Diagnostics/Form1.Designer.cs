@@ -30,7 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabelTimeOpen = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.btnExport = new System.Windows.Forms.Button();
             this.checkBoxAutoScroll = new System.Windows.Forms.CheckBox();
             this.buttonOpen = new System.Windows.Forms.Button();
             this.comboBoxPorts = new System.Windows.Forms.ComboBox();
@@ -69,8 +71,6 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.textBoxProtocolTerminator = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.toolStripStatusLabelTimeOpen = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnExport = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -106,6 +106,11 @@
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // toolStripStatusLabelTimeOpen
+            // 
+            this.toolStripStatusLabelTimeOpen.Name = "toolStripStatusLabelTimeOpen";
+            this.toolStripStatusLabelTimeOpen.Size = new System.Drawing.Size(0, 17);
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -131,6 +136,16 @@
             this.splitContainer1.SplitterDistance = 39;
             this.splitContainer1.TabIndex = 1;
             // 
+            // btnExport
+            // 
+            this.btnExport.Location = new System.Drawing.Point(460, 8);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(93, 23);
+            this.btnExport.TabIndex = 5;
+            this.btnExport.Text = "CSV Export..";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            // 
             // checkBoxAutoScroll
             // 
             this.checkBoxAutoScroll.AutoSize = true;
@@ -143,14 +158,13 @@
             // 
             // buttonOpen
             // 
-            this.buttonOpen.Enabled = false;
             this.buttonOpen.Location = new System.Drawing.Point(215, 8);
             this.buttonOpen.Name = "buttonOpen";
             this.buttonOpen.Size = new System.Drawing.Size(75, 23);
             this.buttonOpen.TabIndex = 3;
             this.buttonOpen.Text = "Open";
             this.buttonOpen.UseVisualStyleBackColor = true;
-            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click_1);
+            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
             // 
             // comboBoxPorts
             // 
@@ -164,7 +178,6 @@
             // checkBoxMode
             // 
             this.checkBoxMode.AutoSize = true;
-            this.checkBoxMode.Enabled = false;
             this.checkBoxMode.Location = new System.Drawing.Point(139, 12);
             this.checkBoxMode.Name = "checkBoxMode";
             this.checkBoxMode.Size = new System.Drawing.Size(70, 17);
@@ -181,6 +194,7 @@
             this.btnStartStop.TabIndex = 0;
             this.btnStartStop.Text = "Start Test";
             this.btnStartStop.UseVisualStyleBackColor = true;
+            this.btnStartStop.Click += new System.EventHandler(this.btnStartStop_Click);
             // 
             // tabControl1
             // 
@@ -575,21 +589,6 @@
             this.label10.Size = new System.Drawing.Size(57, 13);
             this.label10.TabIndex = 0;
             this.label10.Text = "Terminator";
-            // 
-            // toolStripStatusLabelTimeOpen
-            // 
-            this.toolStripStatusLabelTimeOpen.Name = "toolStripStatusLabelTimeOpen";
-            this.toolStripStatusLabelTimeOpen.Size = new System.Drawing.Size(0, 17);
-            // 
-            // btnExport
-            // 
-            this.btnExport.Location = new System.Drawing.Point(460, 8);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(93, 23);
-            this.btnExport.TabIndex = 5;
-            this.btnExport.Text = "CSV Export..";
-            this.btnExport.UseVisualStyleBackColor = true;
-            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // Form1
             // 

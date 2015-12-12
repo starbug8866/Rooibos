@@ -26,7 +26,7 @@ namespace Rooibos.RC.Win.Diagnostics
 
         private XBox360Plane m_controller;
         private Thread m_controllerThread;
-        private Thread m_timerThread;
+        private System.Timers.Timer m_timer;
 
         private DateTime m_timeOpened;
 
@@ -41,7 +41,13 @@ namespace Rooibos.RC.Win.Diagnostics
             m_controller.OnInputChangedEvent += m_controller_OnInputChangedEvent;
 
             m_controllerThread = new Thread(m_controller.ControllerStart);
-            m_timerThread = new Thread(StartTimer);
+            m_timer = new System.Timers.Timer(1000);
+            m_timer.Elapsed += M_timer_Elapsed;
+        }
+
+        private void M_timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            toolStripStatusLabelTimeOpen.Text = (DateTime.Now - m_timeOpened).Seconds.ToString();
         }
 
         private void m_controller_OnInputChangedEvent(object sender, int angleAilerons, int angleElevators, int angleRudder, int power)
@@ -147,13 +153,6 @@ namespace Rooibos.RC.Win.Diagnostics
             });
         }
 
-        private void StartTimer()
-        {
-            toolStripStatusLabelTimeOpen.Text = (DateTime.Now - m_timeOpened).Seconds.ToString();
-
-            Thread.Sleep(1000);
-        }
-
         private void buttonOpen_Click(object sender, EventArgs e)
         {
             if (buttonOpen.Text.Equals("Open"))
@@ -175,11 +174,12 @@ namespace Rooibos.RC.Win.Diagnostics
                 textBoxProtocolTerminator.Enabled = false;
 
                 m_timeOpened = DateTime.Now;
-                m_timerThread.Start();
+                toolStripStatusLabelTimeOpen.Text = "0";
+                m_timer.Start();
             }
             else
             {
-                _Bridge.Close();
+                _Bridge.Dispose();
                 buttonOpen.Text = "Open";
 
                 m_controllerThread.Abort();
@@ -192,11 +192,28 @@ namespace Rooibos.RC.Win.Diagnostics
                 btnStartStop.Text = "Start Test";
 
                 textBoxProtocolTerminator.Enabled = true;
-                m_timerThread.Abort();
+                m_timer.Stop();
             }
         }
 
-        private void buttonOpen_Click_1(object sender, EventArgs e)
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog d = new SaveFileDialog();
+
+            if (d.ShowDialog(this) != DialogResult.Cancel)
+            {
+                try
+                {
+                    FileHelper.SaveCsvFile(new FileInfo(d.FileName), dataGridViewIO);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Could not save file: " + ex.ToString());
+                }
+            }
+        }
+
+        private void btnStartStop_Click(object sender, EventArgs e)
         {
             if (btnStartStop.Text.Equals("START TEST", StringComparison.OrdinalIgnoreCase))
             {
@@ -216,23 +233,6 @@ namespace Rooibos.RC.Win.Diagnostics
 
                 btnStartStop.Text = "Start Test";
                 btnExport.Enabled = true;
-            }
-        }
-
-        private void btnExport_Click(object sender, EventArgs e)
-        {
-            SaveFileDialog d = new SaveFileDialog();
-
-            if (d.ShowDialog(this) != DialogResult.Cancel)
-            {
-                try
-                {
-                    FileHelper.SaveCsvFile(new FileInfo(d.FileName), dataGridViewIO);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Could not save file: " + ex.ToString());
-                }
             }
         }
     }

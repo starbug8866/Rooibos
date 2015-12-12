@@ -9,12 +9,13 @@ using Rooibos.RC.IO;
 
 namespace Rooibos.RC.IO
 {
-    public class RCBridge
+    public class RCBridge : IDisposable
     {
         private SerialPort _Port;
         private char _MessageTerminator = '?';
         
         private MemoryStream _s = new MemoryStream();
+        private bool m_cont = false;
 
         public delegate void OnCommandReceivedEventHandler(object sender, string command, string value);
 
@@ -49,39 +50,46 @@ namespace Rooibos.RC.IO
             byte[] buffer = new byte[1];
             int i = 0;
 
-            while ((i = _Port.Read(buffer, 0, buffer.Length)) > 0)
+            try
             {
-                if (Encoding.ASCII.GetString(buffer).Equals(_MessageTerminator.ToString()))
+                while ((_Port.IsOpen) && ((i = _Port.Read(buffer, 0, buffer.Length)) > 0) && (m_cont))
                 {
-                    string[] parts = Encoding.ASCII.GetString(_s.ToArray()).Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (Encoding.ASCII.GetString(buffer).Equals(_MessageTerminator.ToString()))
+                    {
+                        string[] parts = Encoding.ASCII.GetString(_s.ToArray()).Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
 
-                    if (parts.Length == 1)
-                    {
-                        this.OnCommandReceivedEvent(this, parts[0].Replace(".", "").Trim(), null);
-                       
-                    }
-                    else if (parts.Length == 2)
-                    {
-                        this.OnCommandReceivedEvent(this, parts[0].Replace(".", "").Trim(), parts[1]);
-                    }
-                    else
-                    {
-                        StringBuilder value = new StringBuilder();
-
-                        for(int x = 1; x < parts.Length; x++)
+                        if (parts.Length == 1)
                         {
-                            value.Append(parts[x]);
+                            this.OnCommandReceivedEvent(this, parts[0].Replace(".", "").Trim(), null);
+
+                        }
+                        else if (parts.Length == 2)
+                        {
+                            this.OnCommandReceivedEvent(this, parts[0].Replace(".", "").Trim(), parts[1]);
+                        }
+                        else
+                        {
+                            StringBuilder value = new StringBuilder();
+
+                            for (int x = 1; x < parts.Length; x++)
+                            {
+                                value.Append(parts[x]);
+                            }
+
+                            this.OnCommandReceivedEvent(this, parts[0], value.ToString());
                         }
 
-                        this.OnCommandReceivedEvent(this, parts[0], value.ToString());
+                        _s = new MemoryStream();
+
+                        break;
                     }
 
-                    _s = new MemoryStream();
-
-                    break;
+                    _s.Write(buffer, 0, buffer.Length);
                 }
-
-                _s.Write(buffer, 0, buffer.Length);
+            }
+            catch (System.Threading.ThreadAbortException goodbye)
+            {
+                this.Dispose();
             }
         }
 
@@ -89,6 +97,8 @@ namespace Rooibos.RC.IO
         {
             if (!_Port.IsOpen)
             {
+                m_cont = true;
+                _s = new MemoryStream();
                 _Port.Open();
             }
         }
@@ -97,6 +107,7 @@ namespace Rooibos.RC.IO
         {
             if (_Port.IsOpen)
             {
+                m_cont = false;
                 _Port.Close();
             }
         }
@@ -119,6 +130,11 @@ namespace Rooibos.RC.IO
             byte[] bMessage = Encoding.ASCII.GetBytes(message);
 
             _Port.Write(bMessage, 0, bMessage.Length);
+        }
+
+        public void Dispose()
+        {
+            this.Close();
         }
     }
 }
