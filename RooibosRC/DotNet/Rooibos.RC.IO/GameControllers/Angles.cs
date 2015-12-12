@@ -11,12 +11,14 @@ namespace Rooibos.RC.IO.GameControllers
         public int Ailerons = 90;
         public int Elevators = 90;
         public int Rudder = 90;
+        public int Power = 100;
 
-        public Angles(int ailerons, int elevators, int rudder)
+        public Angles(int ailerons, int elevators, int rudder, int power)
         {
             Ailerons = ailerons;
             Elevators = elevators;
             Rudder = rudder;
+            Power = power;
         }
     }
 }

@@ -8,6 +8,13 @@ namespace Rooibos.Library
 {
     public class Degrees
     {
+        public static int Scale(decimal percent, int min, int max)
+        {
+            decimal variance = max - min;
+
+            return Convert.ToInt32(Math.Round(variance * (percent / 100)));
+        }
+
         public static int Scale(decimal percent, int min, int max, int level)
         {
             decimal variance = 0;

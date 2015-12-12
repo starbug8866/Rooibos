@@ -71,6 +71,11 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.textBoxProtocolTerminator = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.numericUpDownMotorPowerMin = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownMotorPowerMax = new System.Windows.Forms.NumericUpDown();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -94,6 +99,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRudderMinDegrees)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRudderMaxDegrees)).BeginInit();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMotorPowerMin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMotorPowerMax)).BeginInit();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -277,6 +285,7 @@
             this.flowLayoutPanel1.Controls.Add(this.groupBoxElevators);
             this.flowLayoutPanel1.Controls.Add(this.groupBox1);
             this.flowLayoutPanel1.Controls.Add(this.groupBox2);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox3);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -590,6 +599,71 @@
             this.label10.TabIndex = 0;
             this.label10.Text = "Terminator";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.numericUpDownMotorPowerMin);
+            this.groupBox3.Controls.Add(this.numericUpDownMotorPowerMax);
+            this.groupBox3.Controls.Add(this.label12);
+            this.groupBox3.Controls.Add(this.label13);
+            this.groupBox3.Location = new System.Drawing.Point(3, 128);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(174, 86);
+            this.groupBox3.TabIndex = 12;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Motor";
+            // 
+            // numericUpDownMotorPowerMin
+            // 
+            this.numericUpDownMotorPowerMin.Location = new System.Drawing.Point(89, 50);
+            this.numericUpDownMotorPowerMin.Maximum = new decimal(new int[] {
+            180,
+            0,
+            0,
+            0});
+            this.numericUpDownMotorPowerMin.Name = "numericUpDownMotorPowerMin";
+            this.numericUpDownMotorPowerMin.Size = new System.Drawing.Size(71, 20);
+            this.numericUpDownMotorPowerMin.TabIndex = 7;
+            this.numericUpDownMotorPowerMin.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDownMotorPowerMax
+            // 
+            this.numericUpDownMotorPowerMax.Location = new System.Drawing.Point(89, 24);
+            this.numericUpDownMotorPowerMax.Maximum = new decimal(new int[] {
+            180,
+            0,
+            0,
+            0});
+            this.numericUpDownMotorPowerMax.Name = "numericUpDownMotorPowerMax";
+            this.numericUpDownMotorPowerMax.Size = new System.Drawing.Size(71, 20);
+            this.numericUpDownMotorPowerMax.TabIndex = 6;
+            this.numericUpDownMotorPowerMax.Value = new decimal(new int[] {
+            170,
+            0,
+            0,
+            0});
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 52);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(57, 13);
+            this.label12.TabIndex = 2;
+            this.label12.Text = "Min Power";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(6, 26);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(60, 13);
+            this.label13.TabIndex = 0;
+            this.label13.Text = "Max Power";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -630,6 +704,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRudderMaxDegrees)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMotorPowerMin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMotorPowerMax)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -679,6 +757,11 @@
         private System.Windows.Forms.TextBox textBoxProtocolTerminator;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.NumericUpDown numericUpDownMotorPowerMin;
+        private System.Windows.Forms.NumericUpDown numericUpDownMotorPowerMax;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
     }
 }
 

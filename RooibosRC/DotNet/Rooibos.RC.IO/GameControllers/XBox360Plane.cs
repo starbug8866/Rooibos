@@ -15,7 +15,15 @@ namespace Rooibos.RC.IO.GameControllers
         [DllImport("user32.dll")]
         private static extern IntPtr SendMessage(IntPtr window, int message, int wparam, int lparam);
 
-        public delegate void OnInputChangedEventHandler(object sender, int angleAilerons, int angleElevators, int angleRudder, int power);
+        public enum ChangeEnumType
+        {
+            Ailerons,
+            Elevators,
+            Rudder,
+            Power
+        }
+
+        public delegate void OnInputChangedEventHandler(object sender, int angleAilerons, int angleElevators, int angleRudder, int power, ChangeEnumType[] changes);
 
         public event OnInputChangedEventHandler OnInputChangedEvent;
 
@@ -31,11 +39,14 @@ namespace Rooibos.RC.IO.GameControllers
         public int RudderDegreesMin { get; set; }
         public int RudderDegreesLevel { get; set; }
 
+        public int PowerMax { get; set; }
+        public int PowerMin { get; set; }
+
         private Angles m_controllerLock;
 
         public XBox360Plane(int aileronsDegreesMax, int aileronsDegreesMin, int aileronsDegreeLevel,
             int elevatorsDegreesMax, int elevatorsDegreesMin, int elevatorsDegreesLevel,
-            int rudderDegreesMax, int rudderDegreesMin, int rudderDegreesLevel)
+            int rudderDegreesMax, int rudderDegreesMin, int rudderDegreesLevel, int powerMin, int powerMax)
         {
             this.AileronsDegreeLevel = aileronsDegreeLevel;
             this.AileronsDegreesMax = aileronsDegreesMax;
@@ -49,7 +60,10 @@ namespace Rooibos.RC.IO.GameControllers
             this.RudderDegreesMax = rudderDegreesMax;
             this.RudderDegreesMin = rudderDegreesMin;
 
-            m_controllerLock = new Angles(this.AileronsDegreeLevel, this.ElevatorsDegreesLevel, this.RudderDegreesLevel);
+            PowerMax = powerMax;
+            PowerMin = powerMin;
+
+            m_controllerLock = new Angles(this.AileronsDegreeLevel, this.ElevatorsDegreesLevel, this.RudderDegreesLevel, this.PowerMin);
         }
 
         public void ControllerStart()
@@ -68,34 +82,45 @@ namespace Rooibos.RC.IO.GameControllers
                     int degreesX = AileronsDegreeLevel;
                     int degreesY = ElevatorsDegreesLevel;
                     int degreesRudder = RudderDegreesLevel;
+                    int power = PowerMin;
 
                     lock (m_controllerLock)
                     {
                         degreesX = Degrees.Scale(state.ThumbSticks.Right.X, AileronsDegreesMin, AileronsDegreesMax, AileronsDegreeLevel);
                         degreesY = Degrees.Scale(state.ThumbSticks.Right.Y, ElevatorsDegreesMin, ElevatorsDegreesMax, ElevatorsDegreesLevel);
+                        power = Degrees.Scale(Convert.ToInt32(Math.Round(state.Triggers.Right)), PowerMin, PowerMax);
 
-                        bool changes = false;
+                        List<ChangeEnumType> changes = new List<ChangeEnumType>();
 
-                        if ((degreesX != m_controllerLock.Ailerons) || (degreesY != m_controllerLock.Elevators))
+                        if (power != m_controllerLock.Power)
                         {
-                            m_controllerLock.Ailerons = degreesX;
-                            m_controllerLock.Elevators = degreesY;
-
-                            changes = true;
+                            m_controllerLock.Power = power;
+                            changes.Add(ChangeEnumType.Power);
                         }
 
+                        if (degreesX != m_controllerLock.Ailerons)
+                        {
+                            m_controllerLock.Ailerons = degreesX;
+                            changes.Add(ChangeEnumType.Ailerons);
+                        }
+
+                        if (degreesY != m_controllerLock.Elevators)
+                        {
+                            m_controllerLock.Elevators = degreesY;
+                            changes.Add(ChangeEnumType.Elevators);
+                        }
+                        
                         degreesRudder = Degrees.Scale(state.ThumbSticks.Left.X, RudderDegreesMin, RudderDegreesMax, RudderDegreesLevel);
 
                         if (degreesRudder != m_controllerLock.Rudder)
                         {
                             m_controllerLock.Rudder = degreesRudder;
-
-                            changes = true;
+                            changes.Add(ChangeEnumType.Rudder);
                         }
 
-                        if (changes && (this.OnInputChangedEvent != null))
+                        if (changes.Count > 0 && (this.OnInputChangedEvent != null))
                         {
-                            this.OnInputChangedEvent(this, m_controllerLock.Ailerons, m_controllerLock.Elevators, m_controllerLock.Rudder, 0);
+                            this.OnInputChangedEvent(this, m_controllerLock.Ailerons, m_controllerLock.Elevators, m_controllerLock.Rudder, m_controllerLock.Power, changes.ToArray());
                         }
 
                         Thread.Sleep(50); // Very important! Must do this so servo's do not get throttled / freaked out and cause the arduino to seize up!

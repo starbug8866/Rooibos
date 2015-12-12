@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Plane\POWR.cs" />
     <Compile Include="Commands\Plane\AILO.cs" />
     <Compile Include="Commands\ECHO.cs" />
     <Compile Include="Commands\Plane\ELEV.cs" />

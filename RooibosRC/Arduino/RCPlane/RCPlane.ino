@@ -24,17 +24,25 @@ const int PinPower = 3;
 const int PinServoElevators = 6;
 const int PinServoAilerons = 7;
 const int PinServoRudder = 8;
+const int PinMotor = 9;
 
 // Default servo positions (level)
 const int AileronsDegreeLevel = 90;
 const int RudderDegreeLevel = 125;
 const int ElevatorsDegreeLevel = 120;
 
+// Motor Power
+const int PowerMin = 100;
+const int PowerMax = 170;
+
 const boolean Debug = true;
 
 Servo m_rudder;
 Servo m_ailerons;
 Servo m_elevators;
+Servo m_motor;
+
+int m_motorPower = 0;
 
 void setup() {
 
@@ -56,12 +64,14 @@ void setup() {
     m_elevators.attach(PinServoElevators);
     m_ailerons.attach(PinServoAilerons);
     m_rudder.attach(PinServoRudder);
+    m_motor.attach(PinMotor);
     
     MoveServo(m_ailerons, AileronsDegreeLevel);
     MoveServo(m_elevators, ElevatorsDegreeLevel);
     MoveServo(m_rudder, RudderDegreeLevel);
-      
-    pinMode(PinPower, OUTPUT);
+
+    motor.write(180); // Start Motor
+    delay(2000);
   }
   else
   {
@@ -174,7 +184,7 @@ void RunCommand(const String command, const String value, const boolean wasRecBy
   }
   else if (command == "POWR")
   {
-    
+    ChangePower(value.toInt());
   }
   else if (command == "RSET")
   {
@@ -182,6 +192,24 @@ void RunCommand(const String command, const String value, const boolean wasRecBy
     MoveServo(m_elevators, ElevatorsDegreeLevel);
     MoveServo(m_rudder, RudderDegreeLevel);
   }
+}
+
+void ChangePower(int power)
+{
+  if (power > PowerMax)
+  {
+    m_motorPower = PowerMax;
+  }
+  else if (power < PowerMin)
+  {
+    m_motorPower = PowerMin;
+  }
+  else
+  {
+    m_motorPower = power;
+  }
+
+  motor.write(m_motorPower);
 }
 
 void WriteMessage(String message, String endpointType)

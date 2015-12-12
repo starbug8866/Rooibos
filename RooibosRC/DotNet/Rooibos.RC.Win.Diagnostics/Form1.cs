@@ -36,7 +36,8 @@ namespace Rooibos.RC.Win.Diagnostics
 
             m_controller = new XBox360Plane(ConvertNice.ToInt32(numericUpDownAileronsMaxDegrees.Value), ConvertNice.ToInt32(numericUpDownAileronsMinDegrees.Value), ConvertNice.ToInt32(numericUpDownAileronsLevelDegrees.Value),
                 ConvertNice.ToInt32(numericUpDownElevatorsMaxDegrees.Value), ConvertNice.ToInt32(numericUpDownElevatorsMinDegrees.Value), ConvertNice.ToInt32(numericUpDownElevatorsLevelDegrees.Value),
-                ConvertNice.ToInt32(numericUpDownRudderMaxDegrees.Value), ConvertNice.ToInt32(numericUpDownRudderMinDegrees.Value), ConvertNice.ToInt32(numericUpDownRudderLevelDegrees.Value));
+                ConvertNice.ToInt32(numericUpDownRudderMaxDegrees.Value), ConvertNice.ToInt32(numericUpDownRudderMinDegrees.Value), ConvertNice.ToInt32(numericUpDownRudderLevelDegrees.Value),
+                ConvertNice.ToInt32(numericUpDownMotorPowerMin.Value), ConvertNice.ToInt32(numericUpDownMotorPowerMax.Value));
 
             m_controller.OnInputChangedEvent += m_controller_OnInputChangedEvent;
 
@@ -50,7 +51,7 @@ namespace Rooibos.RC.Win.Diagnostics
             toolStripStatusLabelTimeOpen.Text = (DateTime.Now - m_timeOpened).Seconds.ToString();
         }
 
-        private void m_controller_OnInputChangedEvent(object sender, int angleAilerons, int angleElevators, int angleRudder, int power)
+        private void m_controller_OnInputChangedEvent(object sender, int angleAilerons, int angleElevators, int angleRudder, int power, XBox360Plane.ChangeEnumType[] changes)
         {
             string prefix = "";
 
@@ -58,10 +59,26 @@ namespace Rooibos.RC.Win.Diagnostics
             {
                 prefix = "FWD_";
             }
-            
-            _Bridge.SendCommand(prefix + IO.Commands.Plane.AILO.Command, angleAilerons.ToString());
-            _Bridge.SendCommand(prefix + IO.Commands.Plane.ELEV.Command, angleElevators.ToString());
-            _Bridge.SendCommand(prefix + IO.Commands.Plane.RUDD.Command, angleRudder.ToString());
+
+            if (changes.Contains(XBox360Plane.ChangeEnumType.Ailerons))
+            {
+                _Bridge.SendCommand(prefix + IO.Commands.Plane.AILO.Command, angleAilerons.ToString());
+            }
+
+            if (changes.Contains(XBox360Plane.ChangeEnumType.Elevators))
+            {
+                _Bridge.SendCommand(prefix + IO.Commands.Plane.ELEV.Command, angleElevators.ToString());
+            }
+
+            if (changes.Contains(XBox360Plane.ChangeEnumType.Rudder))
+            {
+                _Bridge.SendCommand(prefix + IO.Commands.Plane.RUDD.Command, angleRudder.ToString());
+            }
+
+            if (changes.Contains(XBox360Plane.ChangeEnumType.Power))
+            {
+                _Bridge.SendCommand(prefix + IO.Commands.Plane.POWR.Command, power.ToString());
+            }
         }
 
         private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
@@ -117,6 +134,13 @@ namespace Rooibos.RC.Win.Diagnostics
             commands.Add(new string[] { prefix + IO.Commands.Plane.RUDD.Command, ConvertNice.ToInt32(numericUpDownRudderMaxDegrees.Value).ToString() });
             commands.Add(new string[] { prefix + IO.Commands.Plane.RUDD.Command, ConvertNice.ToInt32(numericUpDownRudderMinDegrees.Value).ToString() });
             commands.Add(new string[] { prefix + IO.Commands.Plane.RUDD.Command, ConvertNice.ToInt32(numericUpDownRudderLevelDegrees.Value).ToString() });
+
+            commands.Add(new string[] { prefix + IO.Commands.ECHO.Command, "" });
+
+            for(int i = Convert.ToInt32(numericUpDownMotorPowerMin.Value); i <= numericUpDownMotorPowerMax.Value; i++)
+            {
+                commands.Add(new string[] { prefix + IO.Commands.Plane.POWR.Command, i.ToString() });
+            }
 
             commands.Add(new string[] { prefix + IO.Commands.ECHO.Command, "" });
 
