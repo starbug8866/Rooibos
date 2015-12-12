@@ -20,11 +20,10 @@ const String Deliminator = "=";
 const boolean IsVehicle = false;
 
 // Pins
-const int PinPower = 3;
 const int PinServoElevators = 6;
 const int PinServoAilerons = 7;
 const int PinServoRudder = 8;
-const int PinMotor = 9;
+const int PinMotor = 5;
 
 // Default servo positions (level)
 const int AileronsDegreeLevel = 90;
