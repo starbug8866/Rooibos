@@ -163,9 +163,11 @@ namespace Rooibos.RC.Win.Diagnostics
                 _Bridge.Open();
 
                 buttonOpen.Text = "Close";
-                
 
-                m_controllerThread.Start();
+                if (m_controllerThread.ThreadState != ThreadState.Running)
+                {
+                    m_controllerThread.Start();
+                }
 
                 comboBoxPorts.Enabled = false;
 
@@ -187,7 +189,12 @@ namespace Rooibos.RC.Win.Diagnostics
                 comboBoxPorts.Enabled = true;
 
                 _Test.Stop = true;
-                _TestThread.Abort();
+
+                if ((_TestThread != null) && (_TestThread.ThreadState == ThreadState.Running))
+                {
+                    _TestThread.Abort();
+                }
+
                 btnStartStop.Enabled = false;
                 btnStartStop.Text = "Start Test";
 

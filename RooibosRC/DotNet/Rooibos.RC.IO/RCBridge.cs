@@ -87,6 +87,10 @@ namespace Rooibos.RC.IO
                     _s.Write(buffer, 0, buffer.Length);
                 }
             }
+            catch  (System.IO.IOException damn)
+            {
+                // TODO
+            }
             catch (System.Threading.ThreadAbortException goodbye)
             {
                 this.Dispose();
