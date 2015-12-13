@@ -17,7 +17,7 @@ const String EndpointSerial = "SERIAL";
 const char EndOfMessage = '?';
 const String Deliminator = "=";
 
-const boolean IsVehicle = false;
+const boolean IsVehicle = true;
 
 // Pins
 const int PinServoElevators = 6;
@@ -69,7 +69,7 @@ void setup() {
     MoveServo(m_elevators, ElevatorsDegreeLevel);
     MoveServo(m_rudder, RudderDegreeLevel);
 
-    motor.write(180); // Start Motor
+    m_motor.write(180); // Start Motor
     delay(2000);
   }
   else
@@ -208,7 +208,7 @@ void ChangePower(int power)
     m_motorPower = power;
   }
 
-  motor.write(m_motorPower);
+  m_motor.write(m_motorPower);
 }
 
 void WriteMessage(String message, String endpointType)

@@ -88,7 +88,7 @@ namespace Rooibos.RC.IO.GameControllers
                     {
                         degreesX = Degrees.Scale(state.ThumbSticks.Right.X, AileronsDegreesMin, AileronsDegreesMax, AileronsDegreeLevel);
                         degreesY = Degrees.Scale(state.ThumbSticks.Right.Y, ElevatorsDegreesMin, ElevatorsDegreesMax, ElevatorsDegreesLevel);
-                        power = Degrees.Scale(Convert.ToInt32(Math.Round(state.Triggers.Right)), PowerMin, PowerMax);
+                        power = Degrees.Scale(Convert.ToInt32(Math.Round(state.Triggers.Right * 100)), PowerMin, PowerMax) + PowerMin;
 
                         List<ChangeEnumType> changes = new List<ChangeEnumType>();
 
