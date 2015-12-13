@@ -58,25 +58,29 @@ namespace Rooibos.RC.IO
                     {
                         string[] parts = Encoding.ASCII.GetString(_s.ToArray()).Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
 
-                        if (parts.Length == 1)
+                        if (parts.Length != 0)
                         {
-                            this.OnCommandReceivedEvent(this, parts[0].Replace(".", "").Trim(), null);
 
-                        }
-                        else if (parts.Length == 2)
-                        {
-                            this.OnCommandReceivedEvent(this, parts[0].Replace(".", "").Trim(), parts[1]);
-                        }
-                        else
-                        {
-                            StringBuilder value = new StringBuilder();
-
-                            for (int x = 1; x < parts.Length; x++)
+                            if (parts.Length == 1)
                             {
-                                value.Append(parts[x]);
-                            }
+                                this.OnCommandReceivedEvent(this, parts[0].Replace(".", "").Trim(), null);
 
-                            this.OnCommandReceivedEvent(this, parts[0], value.ToString());
+                            }
+                            else if (parts.Length == 2)
+                            {
+                                this.OnCommandReceivedEvent(this, parts[0].Replace(".", "").Trim(), parts[1]);
+                            }
+                            else
+                            {
+                                StringBuilder value = new StringBuilder();
+
+                                for (int x = 1; x < parts.Length; x++)
+                                {
+                                    value.Append(parts[x]);
+                                }
+
+                                this.OnCommandReceivedEvent(this, parts[0], value.ToString());
+                            }
                         }
 
                         _s = new MemoryStream();
