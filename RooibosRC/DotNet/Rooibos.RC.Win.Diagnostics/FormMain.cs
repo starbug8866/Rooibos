@@ -17,7 +17,7 @@ using System.Windows.Forms;
 
 namespace Rooibos.RC.Win.Diagnostics
 {
-    public partial class Form1 : Form
+    public partial class FormMain : Form
     {
         private RC.IO.RCBridge _Bridge;
         private Thread _TestThread;
@@ -30,7 +30,7 @@ namespace Rooibos.RC.Win.Diagnostics
 
         private DateTime m_timeOpened;
 
-        public Form1()
+        public FormMain()
         {
             InitializeComponent();
 
