@@ -30,6 +30,8 @@ namespace Rooibos.RC.Win.Diagnostics
 
         private DateTime m_timeOpened;
 
+        private KeyboardControllerForm m_keyboardControllerForm;
+
         public FormMain()
         {
             InitializeComponent();
@@ -265,6 +267,28 @@ namespace Rooibos.RC.Win.Diagnostics
                 btnStartStop.Text = "Start Test";
                 btnExport.Enabled = true;
             }
+        }
+
+        private void SendCommand(string command, string value)
+        {
+            string prefix = "";
+
+            if (checkBoxMode.Checked)
+            {
+                prefix = "FWD_";
+            }
+
+            _Bridge.SendCommand(prefix + command, value);
+        }
+
+        private void btnKeyboardController_Click(object sender, EventArgs e)
+        {
+            if (m_keyboardControllerForm == null)
+            {
+                m_keyboardControllerForm = new KeyboardControllerForm(_Bridge);
+            }
+
+            m_keyboardControllerForm.Show();
         }
     }
 }

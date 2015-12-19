@@ -159,8 +159,29 @@ void loop() {
   }
 }
 
-void MoveServo(Servo &servo, int angle)
+void MoveServo(Servo &servo, String value)
 {
+	int angle = servo.read();
+
+	if (value == "UP")
+	{
+		if ((angle + 1) <= 180)
+		{
+			angle = angle + 1;
+		}
+	}
+	else if (value == "DOWN")
+	{
+		if ((angle -1) > 0)
+		{
+			angle = angle - 1;
+		}
+	}
+	else
+	{
+		angle = value.toInt();
+	}
+
   if (servo.read() != angle)
   {
     servo.write(angle);
@@ -171,19 +192,19 @@ void RunCommand(const String command, const String value, const boolean wasRecBy
 {
   if (command == "AILO")
   {
-    MoveServo(m_ailerons, value.toInt());
+    MoveServo(m_ailerons, value);
   }
   else if (command == "ELEV")
   {
-    MoveServo(m_elevators, value.toInt());
+    MoveServo(m_elevators, value);
   }
   else if (command == "RUDD")
   {
-    MoveServo(m_rudder, value.toInt());
+    MoveServo(m_rudder, value);
   }
   else if (command == "POWR")
   {
-    ChangePower(value.toInt());
+    ChangePower(value);
   }
   else if (command == "RSET")
   {
@@ -193,8 +214,29 @@ void RunCommand(const String command, const String value, const boolean wasRecBy
   }
 }
 
-void ChangePower(int power)
+void ChangePower(String value)
 {
+  int power = m_motor.read();
+
+  if (value == "UP")
+  {
+	if ((value + 1) <= 180)
+	{
+	   power = value.toInt();
+	}
+  }
+  else if (value == "DOWN")
+  {
+	if ((value - 1) >= 0)
+	{
+		power = value.toInt();
+	}
+  }
+  else
+  {
+	power = value.toInt();
+  }
+
   if (power > PowerMax)
   {
     m_motorPower = PowerMax;
@@ -208,7 +250,10 @@ void ChangePower(int power)
     m_motorPower = power;
   }
 
-  m_motor.write(m_motorPower);
+  if (m_motorPower != m_motor.read())
+  {
+	m_motor.write(m_motorPower);
+  }
 }
 
 void WriteMessage(String message, String endpointType)

@@ -38,7 +38,7 @@
             this.comboBoxPorts = new System.Windows.Forms.ComboBox();
             this.checkBoxMode = new System.Windows.Forms.CheckBox();
             this.btnStartStop = new System.Windows.Forms.Button();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabControlKeyboardControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dataGridViewIO = new System.Windows.Forms.DataGridView();
             this.DateStamp = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -76,12 +76,13 @@
             this.numericUpDownMotorPowerMax = new System.Windows.Forms.NumericUpDown();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
+            this.btnKeyboardController = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
+            this.tabControlKeyboardControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewIO)).BeginInit();
             this.tabPage2.SuspendLayout();
@@ -129,6 +130,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.btnKeyboardController);
             this.splitContainer1.Panel1.Controls.Add(this.btnExport);
             this.splitContainer1.Panel1.Controls.Add(this.checkBoxAutoScroll);
             this.splitContainer1.Panel1.Controls.Add(this.buttonOpen);
@@ -139,7 +141,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
+            this.splitContainer1.Panel2.Controls.Add(this.tabControlKeyboardControl);
             this.splitContainer1.Size = new System.Drawing.Size(748, 408);
             this.splitContainer1.SplitterDistance = 39;
             this.splitContainer1.TabIndex = 1;
@@ -204,16 +206,16 @@
             this.btnStartStop.UseVisualStyleBackColor = true;
             this.btnStartStop.Click += new System.EventHandler(this.btnStartStop_Click);
             // 
-            // tabControl1
+            // tabControlKeyboardControl
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(748, 365);
-            this.tabControl1.TabIndex = 1;
+            this.tabControlKeyboardControl.Controls.Add(this.tabPage1);
+            this.tabControlKeyboardControl.Controls.Add(this.tabPage2);
+            this.tabControlKeyboardControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlKeyboardControl.Location = new System.Drawing.Point(0, 0);
+            this.tabControlKeyboardControl.Name = "tabControlKeyboardControl";
+            this.tabControlKeyboardControl.SelectedIndex = 0;
+            this.tabControlKeyboardControl.Size = new System.Drawing.Size(748, 365);
+            this.tabControlKeyboardControl.TabIndex = 1;
             // 
             // tabPage1
             // 
@@ -664,7 +666,17 @@
             this.label13.TabIndex = 0;
             this.label13.Text = "Max Power";
             // 
-            // Form1
+            // btnKeyboardController
+            // 
+            this.btnKeyboardController.Location = new System.Drawing.Point(559, 8);
+            this.btnKeyboardController.Name = "btnKeyboardController";
+            this.btnKeyboardController.Size = new System.Drawing.Size(147, 23);
+            this.btnKeyboardController.TabIndex = 6;
+            this.btnKeyboardController.Text = "Keyboard Controller";
+            this.btnKeyboardController.UseVisualStyleBackColor = true;
+            this.btnKeyboardController.Click += new System.EventHandler(this.btnKeyboardController_Click);
+            // 
+            // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -672,7 +684,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Form1";
+            this.Name = "FormMain";
             this.Text = "RC Diagnostics";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.statusStrip1.ResumeLayout(false);
@@ -682,7 +694,7 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
+            this.tabControlKeyboardControl.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewIO)).EndInit();
             this.tabPage2.ResumeLayout(false);
@@ -723,7 +735,7 @@
         private System.Windows.Forms.ComboBox comboBoxPorts;
         private System.Windows.Forms.CheckBox checkBoxMode;
         private System.Windows.Forms.Button btnStartStop;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl tabControlKeyboardControl;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.DataGridView dataGridViewIO;
         private System.Windows.Forms.DataGridViewTextBoxColumn DateStamp;
@@ -762,6 +774,7 @@
         private System.Windows.Forms.NumericUpDown numericUpDownMotorPowerMax;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Button btnKeyboardController;
     }
 }
 
