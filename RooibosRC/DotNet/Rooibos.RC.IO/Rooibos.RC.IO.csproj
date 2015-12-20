@@ -69,11 +69,11 @@
     <Compile Include="Commands\Plane\RUDD.cs" />
     <Compile Include="GameControllers\Angles.cs" />
     <Compile Include="GameControllers\KeyboardController.cs" />
-    <Compile Include="GameControllers\KeyboardControllerForm.cs">
+    <Compile Include="GameControllers\FormKeyboardController.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GameControllers\KeyboardControllerForm.Designer.cs">
-      <DependentUpon>KeyboardControllerForm.cs</DependentUpon>
+    <Compile Include="GameControllers\FormKeyboardController.Designer.cs">
+      <DependentUpon>FormKeyboardController.cs</DependentUpon>
     </Compile>
     <Compile Include="GameControllers\XBox360Plane.cs" />
     <Compile Include="IRCCommand.cs" />
@@ -89,8 +89,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="GameControllers\KeyboardControllerForm.resx">
-      <DependentUpon>KeyboardControllerForm.cs</DependentUpon>
+    <EmbeddedResource Include="GameControllers\FormKeyboardController.resx">
+      <DependentUpon>FormKeyboardController.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

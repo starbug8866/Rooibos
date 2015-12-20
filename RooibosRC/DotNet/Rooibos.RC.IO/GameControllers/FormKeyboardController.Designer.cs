@@ -1,6 +1,6 @@
 ﻿namespace Rooibos.RC.IO.GameControllers
 {
-    partial class KeyboardControllerForm
+    partial class FormKeyboardController
     {
         /// <summary>
         /// Required designer variable.
@@ -132,7 +132,7 @@
             this.Controls.Add(this.btnDown);
             this.Controls.Add(this.btnUp);
             this.Name = "KeyboardControllerForm";
-            this.Text = "KeyboardControllerForm";
+            this.Text = "Keyboard Controller";
             this.Load += new System.EventHandler(this.KeyboardControllerForm_Load);
             this.ResumeLayout(false);
 

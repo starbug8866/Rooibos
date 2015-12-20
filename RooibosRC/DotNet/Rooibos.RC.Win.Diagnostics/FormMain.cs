@@ -30,7 +30,7 @@ namespace Rooibos.RC.Win.Diagnostics
 
         private DateTime m_timeOpened;
 
-        private KeyboardControllerForm m_keyboardControllerForm;
+        private FormKeyboardController m_keyboardControllerForm;
 
         public FormMain()
         {
@@ -285,7 +285,7 @@ namespace Rooibos.RC.Win.Diagnostics
         {
             if (m_keyboardControllerForm == null)
             {
-                m_keyboardControllerForm = new KeyboardControllerForm(_Bridge);
+                m_keyboardControllerForm = new FormKeyboardController(_Bridge);
             }
 
             m_keyboardControllerForm.Show();

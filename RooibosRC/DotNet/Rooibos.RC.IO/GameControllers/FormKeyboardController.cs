@@ -10,11 +10,11 @@ using System.Windows.Forms;
 
 namespace Rooibos.RC.IO.GameControllers
 {
-    public partial class KeyboardControllerForm : Form
+    public partial class FormKeyboardController : Form
     {
         private KeyboardController m_keyboardController;
 
-        public KeyboardControllerForm(RCBridge bridge)
+        public FormKeyboardController(RCBridge bridge)
         {
             m_keyboardController = new KeyboardController(bridge);
 
@@ -70,6 +70,16 @@ namespace Rooibos.RC.IO.GameControllers
         {
             this.KeyPreview = true;
             this.KeyDown += KeyboardControllerForm_KeyDown;
+
+            btnDown.Text = m_keyboardController.KeyDown.ToString();
+            btnLeft.Text = m_keyboardController.KeyLeft.ToString();
+            btnPowerDown.Text = m_keyboardController.PowerDown.ToString();
+            btnPowerUp.Text = m_keyboardController.PowerUp.ToString();
+            btnRight.Text = m_keyboardController.KeyRight.ToString();
+            btnLeft.Text = m_keyboardController.KeyLeft.ToString();
+
+            buttonRudderLeft.Text = m_keyboardController.RudderLeft.ToString();
+            buttonRudderRight.Text = m_keyboardController.RudderRight.ToString();
         }
     }
 }
