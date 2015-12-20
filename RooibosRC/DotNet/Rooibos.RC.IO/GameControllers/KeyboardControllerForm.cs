@@ -23,42 +23,42 @@ namespace Rooibos.RC.IO.GameControllers
 
         private void btnPowerUp_Click(object sender, EventArgs e)
         {
-            m_keyboardController.KeyPressDown(m_keyboardController.PowerUp);
+            btnPowerUp.PerformClick();
         }
 
         private void btnPowerDown_Click(object sender, EventArgs e)
         {
-            m_keyboardController.KeyPressDown(m_keyboardController.PowerDown);
+            btnPowerDown.PerformClick();
         }
 
         private void btnLeft_Click(object sender, EventArgs e)
         {
-            m_keyboardController.KeyPressDown(m_keyboardController.KeyLeft);
+            btnLeft.PerformClick();
         }
 
         private void btnUp_Click(object sender, EventArgs e)
         {
-            m_keyboardController.KeyPressDown(m_keyboardController.KeyUp);
+            btnUp.PerformClick();
         }
 
         private void btnDown_Click(object sender, EventArgs e)
         {
-            m_keyboardController.KeyPressDown(m_keyboardController.KeyDown);
+            btnDown.PerformClick();
         }
 
         private void btnRight_Click(object sender, EventArgs e)
         {
-            m_keyboardController.KeyPressDown(m_keyboardController.KeyRight);
+            btnRight.PerformClick();
         }
 
         private void buttonRudderLeft_Click(object sender, EventArgs e)
         {
-            m_keyboardController.KeyPressDown(m_keyboardController.RudderLeft);
+            buttonRudderLeft.PerformClick();
         }
 
         private void buttonRudderRight_Click(object sender, EventArgs e)
         {
-            m_keyboardController.KeyPressDown(m_keyboardController.RudderRight);
+            buttonRudderRight.PerformClick();
         }
     }
 }
