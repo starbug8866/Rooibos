@@ -18,29 +18,20 @@ namespace Rooibos.RC.IO.GameControllers
         public char RudderLeft = 'H';
         public char RudderRight = 'j';
 
-        private RCBridge Bridge { get; set; }    
-        public Form AttachedForm { get; private set; }                                                                               
+        private RCBridge Bridge { get; set; }                                                                          
         
         public KeyboardController(RCBridge bridge)
         {
             Bridge = bridge;
         }
 
-        public KeyboardController(RCBridge bridge, Form form)
-        {
-            Bridge = bridge;
-            AttachedForm = form;
-
-            form.KeyDown += Form_KeyDown;
-        }
-
-        private void Form_KeyDown(object sender, KeyEventArgs e)
-        {
-            KeyPressDown(((char)e.KeyValue).ToString().ToUpper()[0]);
-        }
-
         public void KeyPressDown(char key)
         {
+            if (Bridge == null)
+            {
+                return;
+            }
+
             if (key.Equals(KeyUp))
             {
                 Bridge.SendCommand(Commands.Plane.ELEV.Command, "UP");

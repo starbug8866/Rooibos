@@ -122,6 +122,11 @@ namespace Rooibos.RC.IO
 
         public void SendCommand(IO.IRCCommand<object> command)
         {
+            if (!_Port.IsOpen)
+            {
+                return;
+            }
+
             string cmd = command.GetCommand();
             string value = command.GetValue();
 

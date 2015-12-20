@@ -133,6 +133,7 @@
             this.Controls.Add(this.btnUp);
             this.Name = "KeyboardControllerForm";
             this.Text = "KeyboardControllerForm";
+            this.Load += new System.EventHandler(this.KeyboardControllerForm_Load);
             this.ResumeLayout(false);
 
         }
