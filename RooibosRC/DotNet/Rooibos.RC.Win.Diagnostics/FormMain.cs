@@ -36,14 +36,6 @@ namespace Rooibos.RC.Win.Diagnostics
         {
             InitializeComponent();
 
-            m_controller = new XBox360Plane(ConvertNice.ToInt32(numericUpDownAileronsMaxDegrees.Value), ConvertNice.ToInt32(numericUpDownAileronsMinDegrees.Value), ConvertNice.ToInt32(numericUpDownAileronsLevelDegrees.Value),
-                ConvertNice.ToInt32(numericUpDownElevatorsMaxDegrees.Value), ConvertNice.ToInt32(numericUpDownElevatorsMinDegrees.Value), ConvertNice.ToInt32(numericUpDownElevatorsLevelDegrees.Value),
-                ConvertNice.ToInt32(numericUpDownRudderMaxDegrees.Value), ConvertNice.ToInt32(numericUpDownRudderMinDegrees.Value), ConvertNice.ToInt32(numericUpDownRudderLevelDegrees.Value),
-                ConvertNice.ToInt32(numericUpDownMotorPowerMin.Value), ConvertNice.ToInt32(numericUpDownMotorPowerMax.Value));
-
-            m_controller.OnInputChangedEvent += m_controller_OnInputChangedEvent;
-
-            m_controllerThread = new Thread(m_controller.ControllerStart);
             m_timer = new System.Timers.Timer(1000);
             m_timer.Elapsed += M_timer_Elapsed;
         }
@@ -190,10 +182,13 @@ namespace Rooibos.RC.Win.Diagnostics
 
                 buttonOpen.Text = "Close";
 
-                if (m_controllerThread.ThreadState != ThreadState.Running)
-                {
-                    m_controllerThread.Start();
-                }
+				m_controller = new XBox360Plane(); // todo - linux file
+				m_controller.OnInputChangedEvent += m_controller_OnInputChangedEvent;
+				m_controller.ControllerStart (ConvertNice.ToInt32 (numericUpDownAileronsMaxDegrees.Value), ConvertNice.ToInt32 (numericUpDownAileronsMinDegrees.Value), ConvertNice.ToInt32 (numericUpDownAileronsLevelDegrees.Value),
+				                             ConvertNice.ToInt32 (numericUpDownElevatorsMaxDegrees.Value), ConvertNice.ToInt32 (numericUpDownElevatorsMinDegrees.Value), ConvertNice.ToInt32 (numericUpDownElevatorsLevelDegrees.Value),
+				                             ConvertNice.ToInt32 (numericUpDownRudderMaxDegrees.Value), ConvertNice.ToInt32 (numericUpDownRudderMinDegrees.Value), ConvertNice.ToInt32 (numericUpDownRudderLevelDegrees.Value),
+				                             ConvertNice.ToInt32 (numericUpDownMotorPowerMin.Value), ConvertNice.ToInt32 (numericUpDownMotorPowerMax.Value));
+			
 
                 comboBoxPorts.Enabled = false;
 
@@ -210,7 +205,7 @@ namespace Rooibos.RC.Win.Diagnostics
                 _Bridge.Dispose();
                 buttonOpen.Text = "Open";
 
-                m_controllerThread.Abort();
+				m_controller.Dispose ();
 
                 comboBoxPorts.Enabled = true;
 
