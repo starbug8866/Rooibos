@@ -26,6 +26,11 @@ namespace Rooibos.RC.IO.GameControllers
         [DllImport("user32.dll")]
         private static extern IntPtr SendMessage(IntPtr window, int message, int wparam, int lparam);
 
+		public static int LinuxRudder = 1;
+		public static int LinuxElevators = 4;
+		public static int LinuxAilerons = 3;
+		public static int LinuxPower = 5;
+
         public enum ChangeEnumType
         {
             Ailerons,
@@ -91,41 +96,9 @@ namespace Rooibos.RC.IO.GameControllers
 						degreesX = Degrees.Scale(state.ThumbSticks.Right.X, AileronsDegreesMin, AileronsDegreesMax, AileronsDegreeLevel);
 						degreesY = Degrees.Scale(state.ThumbSticks.Right.Y, ElevatorsDegreesMin, ElevatorsDegreesMax, ElevatorsDegreesLevel);
 						power = Degrees.Scale(Convert.ToInt32(Math.Round(state.Triggers.Right * 100)), PowerMin, PowerMax) + PowerMin;
-
-						List<ChangeEnumType> changes = new List<ChangeEnumType>();
-
-						if (power != m_controllerLock.Power)
-						{
-							m_controllerLock.Power = power;
-							changes.Add(ChangeEnumType.Power);
-						}
-
-						if (degreesX != m_controllerLock.Ailerons)
-						{
-							m_controllerLock.Ailerons = degreesX;
-							changes.Add(ChangeEnumType.Ailerons);
-						}
-
-						if (degreesY != m_controllerLock.Elevators)
-						{
-							m_controllerLock.Elevators = degreesY;
-							changes.Add(ChangeEnumType.Elevators);
-						}
-
 						degreesRudder = Degrees.Scale(state.ThumbSticks.Left.X, RudderDegreesMin, RudderDegreesMax, RudderDegreesLevel);
 
-						if (degreesRudder != m_controllerLock.Rudder)
-						{
-							m_controllerLock.Rudder = degreesRudder;
-							changes.Add(ChangeEnumType.Rudder);
-						}
-
-						if (changes.Count > 0 && (this.OnInputChangedEvent != null))
-						{
-							this.OnInputChangedEvent(this, m_controllerLock.Ailerons, m_controllerLock.Elevators, m_controllerLock.Rudder, m_controllerLock.Power, changes.ToArray());
-						}
-
-						Thread.Sleep(50); // Very important! Must do this so servo's do not get throttled / freaked out and cause the arduino to seize up!
+						Notify (degreesX, degreesY, degreesRudder, power);
 					}
 				}
 				catch { };
@@ -145,27 +118,62 @@ namespace Rooibos.RC.IO.GameControllers
 						return;
 					}
 
-					// Read 8 bytes from file and analyze.
-					fs.Read(buff, 0, 8);
-					j.DetectChange(buff);
+					int degreesX = AileronsDegreeLevel;
+					int degreesY = ElevatorsDegreesLevel;
+					int degreesRudder = RudderDegreesLevel;
+					int power = PowerMin;
 
-					int top = 1;
+					lock (m_controllerLock) {
+					
+						// Read 8 bytes from file and analyze.
+						fs.Read(buff, 0, 8);
+						j.DetectChange(buff);
 
-					// Prints Axis values
-					foreach (byte key in j.Axis.Keys)
-					{
-						//writeLine(top, string.Format("Axis{0}: {1}", key, j.Axis[key]));
-						top += 1;
-					}
+						degreesX = Degrees.Scale(Degrees.GetPercent(j.Axis[LinuxAilerons], AileronsDegreesMin, AileronsDegreesMax));
+						degreesY = Degrees.Scale(Degrees.GetPercent(j.Axis[LinuxElevators], ElevatorsDegreesMin, ElevatorsDegreesMax));
+						power = Degrees.Scale(Degrees.GetPercent(j.Axis[LinuxPower], PowerMin, PowerMax));
+						degreesRudder = Degrees.Scale(Degrees.GetPercent(j.Axis[LinuxRudder], RudderDegreesMin, RudderDegreesMax));
 
-					// Prints Buttons values
-					foreach (byte key in j.Button.Keys)
-					{
-						//writeLine(top, string.Format("Button{0}: {1}", key, j.Button[key]));
-						top += 1;
+						Notify (degreesX, degreesY, degreesRudder, power);					
 					}
 				}
 			}
+		}
+
+		private void Notify(int degreesX, int degreesY, int degreesRudder, int power)
+		{
+			List<ChangeEnumType> changes = new List<ChangeEnumType>();
+
+			if (power != m_controllerLock.Power)
+			{
+				m_controllerLock.Power = power;
+				changes.Add(ChangeEnumType.Power);
+			}
+
+			if (degreesX != m_controllerLock.Ailerons)
+			{
+				m_controllerLock.Ailerons = degreesX;
+				changes.Add(ChangeEnumType.Ailerons);
+			}
+
+			if (degreesY != m_controllerLock.Elevators)
+			{
+				m_controllerLock.Elevators = degreesY;
+				changes.Add(ChangeEnumType.Elevators);
+			}
+
+			if (degreesRudder != m_controllerLock.Rudder)
+			{
+				m_controllerLock.Rudder = degreesRudder;
+				changes.Add(ChangeEnumType.Rudder);
+			}
+
+			if (changes.Count > 0 && (this.OnInputChangedEvent != null))
+			{
+				this.OnInputChangedEvent(this, m_controllerLock.Ailerons, m_controllerLock.Elevators, m_controllerLock.Rudder, m_controllerLock.Power, changes.ToArray());
+			}
+
+			Thread.Sleep(50); // Very important! Must do this so servo's do not get throttled / freaked out and cause the arduino to seize 
 		}
 
 		public void ControllerStart(int aileronsDegreesMax, int aileronsDegreesMin, int aileronsDegreeLevel,

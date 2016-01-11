@@ -58,5 +58,15 @@ namespace Rooibos.Library
 
             return Scale(percent, min, max, level);
         }
+
+		public static int GetPercent(int val, int min, int max)
+		{
+			int diff = max - min;
+			val += diff / 2;
+
+			int percent = (100 / diff) * val;
+
+			return percent;
+		}
     }
 }
